@@ -1,0 +1,33 @@
+"login_title" = "登录 GitHub";
+"username_placeholder" = "用户名";
+"password_placeholder" = "密码";
+"login_button" = "登录";
+"biometric_login_button" = "面容ID / 触控ID 登录";
+"biometric_reason" = "使用生物识别快速登录";
+"logout_button" = "退出登录";
+"empty_fields_error" = "用户名或密码不能为空";
+"login_failed" = "登录失败，请检查账号密码";
+"biometric_failed" = "生物识别验证失败";
+"error_title" = "加载失败";
+"error_message" = "网络或服务异常，请稍后重试";
+"retry_button" = "重试";
+"no_description" = "暂无描述";
+"home_title" = "首页";
+"search_title" = "搜索";
+"profile_title" = "我的";
+"logout_button" = "退出登录";
+"logout_confirm_title" = "确认退出";
+"logout_confirm_message" = "确定要退出当前账号吗？";
+
+"error_title" = "错误";
+"error_common" = "加载失败，请重试";
+"error_no_user" = "未检测到登录用户，请重新登录";
+
+"no_bio" = "暂无简介";
+"repos" = "仓库";
+"followers" = "粉丝";
+"following" = "关注";
+
+"ok" = "确定";
+"cancel" = "取消";
+"logout" = "退出";

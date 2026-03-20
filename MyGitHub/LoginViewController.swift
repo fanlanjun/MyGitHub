@@ -1,20 +1,26 @@
-// Sources/Features/Auth/LoginViewController.swift
+//
+//  MyGitHubApp.swift
+//  LoginViewController
+//
+//  Created by Frank Fan on 2026/3/20.
+//
+
 import UIKit
 import LocalAuthentication
+import SVProgressHUD
 
 class LoginViewController: UIViewController {
-    // UI 组件
-    private let usernameTF = UITextField(placeholder: "用户名", isSecure: false)
-    private let passwordTF = UITextField(placeholder: "密码", isSecure: true)
+    
+    private let usernameTF = UITextField(placeholder: "User name", isSecure: false)
+    private let passwordTF = UITextField(placeholder: "Auth Token", isSecure: true)
     private let loginBtn = UIButton(title: "登录", bgColor: .systemBlue)
     private let biometricsBtn = UIButton(title: "生物识别登录", font: .systemFont(ofSize: 14))
     
-    // 依赖注入（协议解耦）
     private let authService: AuthServiceProtocol
-    private let apiService: GitHubAPIServiceProtocol
+    private let apiService: GitHubAPIProtocol
     
-    init(authService: AuthServiceProtocol = AuthService(),
-         apiService: GitHubAPIServiceProtocol = GitHubAPIService()) {
+    init(authService: AuthServiceProtocol = AuthService.shared,
+         apiService: GitHubAPIProtocol = GitHubAPIService.shared) {
         self.authService = authService
         self.apiService = apiService
         super.init(nibName: nil, bundle: nil)
@@ -28,12 +34,10 @@ class LoginViewController: UIViewController {
         setupBiometrics()
     }
     
-    // MARK: - UI 配置
     private func setupUI() {
         view.backgroundColor = .systemBackground
         title = NSLocalizedString("登录", comment: "")
         
-        // 布局（SnapKit）
         let stack = UIStackView(arrangedSubviews: [usernameTF, passwordTF, loginBtn, biometricsBtn])
         stack.axis = .vertical
         stack.spacing = 16
@@ -51,9 +55,8 @@ class LoginViewController: UIViewController {
         biometricsBtn.addTarget(self, action: #selector(biometricsTapped), for: .touchUpInside)
     }
     
-    // 生物识别可用性检查
     private func setupBiometrics() {
-        biometricsBtn.isHidden = !authService.isBiometricsAvailable()
+        biometricsBtn.isHidden = authService.getCurrentUser()?.isEmpty ?? true
     }
     
     // MARK: - 事件处理
@@ -64,35 +67,35 @@ class LoginViewController: UIViewController {
             return
         }
         
-        // 保存凭证（实际需验证 GitHub 账号，此处简化）
-        do {
-            try authService.saveCredentials(username: username, password: password)
-            navigateToHome() // 跳转主页
-        } catch {
-            showAlert(title: "错误", message: error.localizedDescription)
+        SVProgressHUD.show()
+        apiService.Login(username: username, auth: password) { result in
+            SVProgressHUD.dismiss()
+            switch result {
+            case .success:
+                self.authService.login(username: username, password: password) { res in
+                    self.navigateToHome()
+                }
+            case .failure:
+                self.showAlert(title: "错误", message: "登录失败")
+                break
+            }
         }
     }
     
     @objc private func biometricsTapped() {
-        authService.authenticateWithBiometrics { [weak self] result in
+        authService.biometricLogin { [weak self] result in
             guard let self = self else { return }
-            switch result {
-            case .success(true):
-                // 生物识别成功，跳转主页
+            if result {
                 self.navigateToHome()
-            case .success(false):
+            } else {
                 self.showAlert(title: "提示", message: "生物识别验证失败")
-            case .failure(let error):
-                self.showAlert(title: "错误", message: error.localizedDescription)
             }
         }
     }
     
     // 跳转主页（TabBar）
     private func navigateToHome() {
-        let tabBar = MainTabBarController()
-        tabBar.modalPresentationStyle = .fullScreen
-        present(tabBar, animated: true)
+        self.dismiss(animated: true)
     }
     
     // 通用弹窗

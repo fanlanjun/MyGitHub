@@ -1,6 +1,14 @@
+//
+//  MyGitHubApp.swift
+//  SearchViewController
+//
+//  Created by Frank Fan on 2026/3/20.
+//
+
 import UIKit
 import SnapKit
 import Alamofire
+import SVProgressHUD
 
 class SearchViewController: UIViewController {
     
@@ -42,8 +50,9 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         guard let text = searchBar.text, !text.isEmpty else { return }
-        
+        SVProgressHUD.show()
         api.searchRepos(query: text) { [weak self] result in
+            SVProgressHUD.dismiss()
             switch result {
             case .success(let list):
                 self?.repos = list

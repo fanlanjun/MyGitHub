@@ -1,14 +1,22 @@
-// Sources/Features/Home/HomeViewController.swift
+//
+//  MyGitHubApp.swift
+//  HomeViewController
+//
+//  Created by Frank Fan on 2026/3/20.
+//
+
 import UIKit
 import Kingfisher
 import MJRefresh
+import SnapKit
+import SVProgressHUD
 
 class HomeViewController: UIViewController {
     private let tableView = UITableView()
-    private var repos: [RepoModel] = []
-    private let apiService: GitHubAPIServiceProtocol
+    private var repos: [Repo] = []
+    private let apiService: GitHubAPIProtocol
     
-    init(apiService: GitHubAPIServiceProtocol = GitHubAPIService()) {
+    init(apiService: GitHubAPIProtocol = GitHubAPIService.shared) {
         self.apiService = apiService
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,7 +37,10 @@ class HomeViewController: UIViewController {
         // 布局
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.edges.equalTo(view.safeAreaLayoutGuide)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         // 注册 Cell
@@ -45,7 +56,11 @@ class HomeViewController: UIViewController {
     
     // 获取趋势仓库（GitHub API）
     private func fetchTrendingRepos() {
+        SVProgressHUD.show()
         apiService.fetchTrendingRepos { [weak self] result in
+            
+            SVProgressHUD.dismiss()
+            
             guard let self = self else { return }
             self.tableView.mj_header?.endRefreshing()
             
@@ -57,9 +72,9 @@ class HomeViewController: UIViewController {
                 // 跳转通用错误页
                 let errorVC = ErrorViewController()
                 errorVC.configure(with: error)
-                errorVC.retryAction = { [weak self] in
-                    self?.fetchTrendingRepos()
-                }
+//                errorVC.retryAction = { [weak self] in
+//                    self?.fetchTrendingRepos()
+//                }
                 self.navigationController?.pushViewController(errorVC, animated: true)
             }
         }
@@ -84,9 +99,9 @@ class RepoCell: UITableViewCell {
     static let reuseID = "RepoCell"
     
     private let avatarIV = UIImageView()
-    private let nameLabel = UILabel(font: .boldSystemFont(ofSize: 16))
-    private let descLabel = UILabel(font: .systemFont(ofSize: 14), lines: 2)
-    private let starLabel = UILabel(font: .systemFont(ofSize: 12), color: .tertiaryLabel)
+    private let nameLabel = UILabel()
+    private let descLabel = UILabel()
+    private let starLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -96,7 +111,11 @@ class RepoCell: UITableViewCell {
     required init?(coder: NSCoder) { fatalError() }
     
     private func setupUI() {
-        // 头像配置
+        
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        descLabel.font = UIFont.systemFont(ofSize: 14)
+        self.starLabel.font = UIFont.systemFont(ofSize: 12)
+        
         avatarIV.layer.cornerRadius = 20
         avatarIV.clipsToBounds = true
         avatarIV.contentMode = .scaleAspectFill
@@ -125,14 +144,12 @@ class RepoCell: UITableViewCell {
         ])
     }
     
-    func configure(with repo: RepoModel) {
+    func configure(with repo: Repo) {
         nameLabel.text = repo.name
         descLabel.text = repo.description ?? NSLocalizedString("无描述", comment: "")
-        starLabel.text = NSLocalizedString("星标数: \(repo.stargazersCount)", comment: "")
-        avatarIV.kf.setImage(with: URL(string: repo.owner.avatarUrl))
+        avatarIV.kf.setImage(
+            with: URL(string: repo.owner.avatar_url),
+            placeholder: UIImage(systemName: "person.circle.fill")
+        )
     }
 }
-
-// MARK: - Label 扩展
-extension UILabel {
-    convenience init(font: UIFont, color: UIColor

@@ -1,36 +1,40 @@
+//
+//  MyGitHubApp.swift
+//  AuthService
+//
+//  Created by Frank Fan on 2026/3/20.
+//
+
 import Foundation
-import KeychainAccess
+import KeychainSwift
 import LocalAuthentication
 
-protocol AuthServiceProtocol {
-    func login(username: String, password: String, completion: @escaping (Bool) -> Void)
-    func logout()
-    func biometricLogin(completion: @escaping (Bool) -> Void)
-    func isLoggedIn() -> Bool
-    func getCurrentUser() -> String?
-}
 
 class AuthService: AuthServiceProtocol {
     static let shared = AuthService()
-    private let keychain = Keychain(service: "com.githubapp")
+    private let keychain = KeychainStorage()
     private let userDefaults = UserDefaults.standard
     private let loggedInKey = "isLoggedIn"
     private let currentUserKey = "currentUser"
+    private var userToken = ""
     
     private init() {}
     
     func login(username: String, password: String, completion: @escaping (Bool) -> Void) {
-        // 模拟 GitHub 登录验证
-        keychain["username"] = username
-        keychain["password"] = password
+        try? keychain.set(username, forKey: "username")
+        try? keychain.set(password, forKey: "authtoken")
         userDefaults.set(true, forKey: loggedInKey)
         userDefaults.set(username, forKey: currentUserKey)
+        userToken = password
         completion(true)
     }
     
+    func getToken() -> String {
+        return userToken
+    }
+    
     func logout() {
-        try? keychain.removeAll()
-        userDefaults.set(false, forKey: loggedInKey)
+        userToken = ""
         userDefaults.removeObject(forKey: currentUserKey)
     }
     
@@ -47,16 +51,17 @@ class AuthService: AuthServiceProtocol {
             .deviceOwnerAuthenticationWithBiometrics,
             localizedReason: NSLocalizedString("biometric_reason", comment: "")
         ) { success, _ in
-            if success, let username = self.keychain["username"] {
+            if success, let username = self.keychain.get(forKey: "username") {
                 self.userDefaults.set(true, forKey: self.loggedInKey)
                 self.userDefaults.set(username, forKey: self.currentUserKey)
+                self.userToken = self.keychain.get(forKey: "authtoken") ?? ""
             }
             completion(success)
         }
     }
     
     func isLoggedIn() -> Bool {
-        userDefaults.bool(forKey: loggedInKey)
+        return !userToken.isEmpty
     }
     
     func getCurrentUser() -> String? {

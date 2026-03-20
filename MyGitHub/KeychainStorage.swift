@@ -1,12 +1,18 @@
-// Sources/Core/Storage/KeychainStorage.swift
+//
+//  MyGitHubApp.swift
+//  KeychainStorage
+//
+//  Created by Frank Fan on 2026/3/20.
+//
+
 import KeychainSwift
 
 class KeychainStorage: SecureStorageProtocol {
     private let keychain = KeychainSwift()
     
     init() {
-        keychain.accessGroup = "com.xxx.GitHubiOS" // 替换为团队 ID
-        keychain.synchronizable = true // 支持 iCloud 同步
+        keychain.accessGroup = "com.frank.MyGitHub"
+        keychain.synchronizable = true
     }
     
     func set(_ value: String, forKey key: String) throws {
@@ -24,9 +30,14 @@ class KeychainStorage: SecureStorageProtocol {
             throw StorageError.failedToRemove
         }
     }
+    
+    func removeAll() throws {
+        keychain.allKeys.forEach { key in
+            keychain.delete(key)
+        }
+    }
 }
 
-// 存储错误枚举
 enum StorageError: LocalizedError {
     case failedToSet, failedToRemove
     
