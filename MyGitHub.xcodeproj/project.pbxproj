@@ -26,7 +26,7 @@
 		F7EA6F592F6CE49E0011F4D0 /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EA6F582F6CE4980011F4D0 /* ErrorViewController.swift */; };
 		F7EA6F5D2F6CE5B00011F4D0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7EA6F5B2F6CE5B00011F4D0 /* Localizable.strings */; };
 		F7EA6F5F2F6CE8C70011F4D0 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EA6F5E2F6CE8C50011F4D0 /* MainTabBarController.swift */; };
-		F7EA6F612F6CEB6D0011F4D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EA6F602F6CEB6A0011F4D0 /* AppDelegate.swift */; };
+		F7EA6F612F6CEB6D0011F4D0 /* MyGitHubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EA6F602F6CEB6A0011F4D0 /* MyGitHubApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +71,7 @@
 		F7EA6F582F6CE4980011F4D0 /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
 		F7EA6F5C2F6CE5B00011F4D0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F7EA6F5E2F6CE8C50011F4D0 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		F7EA6F602F6CEB6A0011F4D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F7EA6F602F6CEB6A0011F4D0 /* MyGitHubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGitHubApp.swift; sourceTree = "<group>"; };
 		F7EA6F622F6CF0AD0011F4D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,7 +137,7 @@
 				F7EA6F462F6CD9DC0011F4D0 /* LoginViewController.swift */,
 				F7EA6F5E2F6CE8C50011F4D0 /* MainTabBarController.swift */,
 				F7EA6F472F6CD9DC0011F4D0 /* ProfileViewController.swift */,
-				F7EA6F602F6CEB6A0011F4D0 /* AppDelegate.swift */,
+				F7EA6F602F6CEB6A0011F4D0 /* MyGitHubApp.swift */,
 				F7EA6F492F6CD9DC0011F4D0 /* SearchViewController.swift */,
 				636211FC2F6AF9EB00B05215 /* Assets.xcassets */,
 				F7EA6F5A2F6CE59A0011F4D0 /* Resoucres */,
@@ -388,7 +388,7 @@
 				F7EA6F4D2F6CD9DC0011F4D0 /* APIProtocol.swift in Sources */,
 				F7EA6F4E2F6CD9DC0011F4D0 /* GitHubAPI.swift in Sources */,
 				F7EA6F502F6CD9DC0011F4D0 /* LoginViewController.swift in Sources */,
-				F7EA6F612F6CEB6D0011F4D0 /* AppDelegate.swift in Sources */,
+				F7EA6F612F6CEB6D0011F4D0 /* MyGitHubApp.swift in Sources */,
 				F7EA6F592F6CE49E0011F4D0 /* ErrorViewController.swift in Sources */,
 				F7EA6F512F6CD9DC0011F4D0 /* HomeViewController.swift in Sources */,
 				F7EA6F552F6CE2E50011F4D0 /* RoundedImageView.swift in Sources */,
