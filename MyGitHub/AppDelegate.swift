@@ -15,7 +15,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.frame = UIScreen.main.bounds
         
-        window?.rootViewController = MainTabBarController()
+        let testVC = UIViewController()
+        testVC.view.backgroundColor = .white
+        let label = UILabel()
+        label.text = "Hello World"
+        label.frame = CGRect(x: 100, y: 100, width: 200, height: 50)
+        testVC.view.addSubview(label)
+        
+        window?.rootViewController = testVC
+        window?.makeKeyAndVisible()
+        
+        print("✅ App launched successfully")
+
+        
+//        window?.rootViewController = MainTabBarController()
         
         window?.makeKeyAndVisible()
         return true

@@ -2,12 +2,45 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSFaceIDUsageDescription</key>
-	<string>使用Face ID快速登录GitHub客户端</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
+    <!-- 基础配置 -->
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    
+    <!-- 启动配置：使用 App Delegate 模式（不使用 Scene Delegate） -->
+    <key>UIApplicationSupportsMultipleScenes</key>
+    <false/>
+    
+    <!-- 支持的界面方向 -->
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    
+    <!-- 你的原有配置 -->
+    <key>NSFaceIDUsageDescription</key>
+    <string>使用Face ID快速登录GitHub客户端</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>

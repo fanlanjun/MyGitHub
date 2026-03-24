@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchTrendingRepos()
+//        fetchTrendingRepos()
     }
     
     private func setupUI() {
